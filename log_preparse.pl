@@ -8,9 +8,9 @@
             Aug , 8, Sep , 9, Oct , 10, Nov , 11, Dec , 12 );
 
 print "Output will be saved in file output.txt in current directory.\n";
-
-open( OUTPUT, ">output.txt" ) || die "Cannot open output.txt";
-
+  if(-f $file && -w $file)
+    open( OUTPUT, ">output.txt" ) || die "Cannot open output.txt for write";
+  
 foreach $file ( @files )
 {
 
@@ -29,7 +29,7 @@ foreach $file ( @files )
     print "output.txt skipped (you must have globbed)\n";
     next;
   }
-  open( LOG, "<$file" ) || die "Cannot open $file for read, aborting.";
+  open( LOG, "<$file" ); #|| die "Cannot open $file for read, aborting.";
 
   while( <LOG> )
   {
@@ -46,7 +46,7 @@ foreach $file ( @files )
     }
     else
     {
-      #invalid log stamp so skip it
+      print "invalid log stamp so skip it";
       next;
     }
     # test the remainder for valid strings
@@ -55,9 +55,9 @@ foreach $file ( @files )
       next;
     }
     print OUTPUT "[$year-$month-$day $time] ",$_, "\n";
+    last close(LOG);
   }
-  close( LOG );
+  last close( OUTPUT );;
 }
 
-close( OUTPUT );
 print "All done.\n";
