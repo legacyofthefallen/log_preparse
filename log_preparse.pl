@@ -19,6 +19,11 @@ foreach $file ( @files )
     print "$file does not appear to be a file, skipping...\n";
     next;
   }
+  if (! -r $file)
+  {
+    print "$file is not readable, skipping...\n";
+    next;
+  }
   if( $file eq "output.txt" )
   {
     print "output.txt skipped (you must have globbed)\n";
