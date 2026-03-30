@@ -2,10 +2,9 @@
 #
 # written by Dan Stephans II
 # (Rafinne L`Ongbone, Rallos Zek)
+use DateTime;
 
 @files = @ARGV;
-%months = ( Jan , 1, Feb , 2, Mar , 3, Apr , 4, May , 5, Jun , 6, Jul , 7,
-            Aug , 8, Sep , 9, Oct , 10, Nov , 11, Dec , 12 );
 
 print "Output will be saved in file output.txt in current directory.\n";
   if(-f $file && -w $file)
@@ -33,16 +32,14 @@ foreach $file ( @files )
 
   while( <LOG> )
   {
-    if( /\[[A-Za-z]+ ([A-Za-z]+) ([0-9]+) ([0-9]+:[0-9]+:[0-9]+) ([0-9]+)\] (.*)/ )
+    my $dt;
+    if( /\[([A-Za-z]+ [A-Za-z]+ [0-9]+ [0-9]+:[0-9]+:[0-9]+ [0-9]+)\] (.*)/ )
     {
       # we break this out for our output so we can write a sortable file
       # since the standard datestamp is wonky and we create a nice stamp
       # that can be dropped right into mySQL
-      $month = sprintf( "%02d", $months{ $1 } );
-      $day = $2;
-      $time = $3;
-      $year = $4;
-      $_         = $5;
+      dt = DateTime::Format::HTTP->parse_datetime($1);
+      $_         = $2;
     }
     else
     {
@@ -54,7 +51,7 @@ foreach $file ( @files )
     {
       next;
     }
-    print OUTPUT "[$year-$month-$day $time] ",$_, "\n";
+    print OUTPUT "[$dt->year-$dt->month_abbr-$dt->day $dt->hms] ",$_, "\n";
     last close(LOG);
   }
   last close( OUTPUT );;
