@@ -33,7 +33,7 @@ foreach $file ( @files )
   while( <LOG> )
   {
     my $dt;
-    if( /\[(\w\w\w\s\w\w\w\s\d\d\s\d\d:\d\d:\d\d\s\d\d\d\d)\] (.*)/ )
+    if( /\[(\w{3}\s\w{3}\s\d{2}\s\d{2}:\d{2}:\d{2}\s\d{4})\] (.*)/ )
     {
       # we break this out for our output so we can write a sortable file
       # since the standard datestamp is wonky and we create a nice stamp
