@@ -7,12 +7,10 @@ on:
     branches: [ "master" ] 
 
 jobs:
-  build:
+  run-perl-syntax-checker:
+    name: Perl syntax checker for log preparse
     runs-on: ubuntu-latest
-    env:
-      plFile: "log_preparse.pl"
     steps:
+      - uses: actions/checkout@v5
       - name: Parse syntax of perl script file
-        run: |
-          echo ${{ env:plFile }}
-          perl -c ${{ env:plFile }}
+        run: perl -c log_preparse.pl
