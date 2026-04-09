@@ -1,0 +1,16 @@
+name: Check parser syntax in perl
+
+on:
+  push: 
+    branches-ignore: [ "master" ]
+  pull_request:
+    branches: [ "master" ] 
+
+jobs:
+  run-perl-syntax-checker:
+    name: Perl syntax checker for log preparse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Parse syntax of perl script file
+        run: perl -c log_preparse.pl
